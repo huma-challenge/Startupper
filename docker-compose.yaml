@@ -23,8 +23,6 @@ services:
       context: ./Gateway
     depends_on:
       - gateway
-    env_file:
-      - ./config/gunicorn.dev.env
     environment:
       # dns and port of gateway
       - GATEWAY_PORT=8000
