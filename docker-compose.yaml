@@ -17,23 +17,23 @@ services:
     restart: always
     entrypoint: ["sh", "./entrypoint.dev.sh"]
 
-    nginx:
-      build:
-        dockerfile: ./dockerfile.nginx
-        context: ./Gateway
-      depends_on:
-        - gateway
-      env_file:
-        - ./config/gunicorn.dev.env
-      environment:
-        # dns and port of gateway
-        - GATEWAY_PORT=8000
-        - GATEWAY_HOST=gateway
-      ports:
-        - 8080:80
-      volumes:
-        - statics:/statics:rw
-      restart: always
+  nginx:
+    build:
+      dockerfile: ./dockerfile.nginx
+      context: ./Gateway
+    depends_on:
+      - gateway
+    env_file:
+      - ./config/gunicorn.dev.env
+    environment:
+      # dns and port of gateway
+      - GATEWAY_PORT=8000
+      - GATEWAY_HOST=gateway
+    ports:
+      - 8080:80
+    volumes:
+      - statics:/statics:rw
+    restart: always
 
 
   
