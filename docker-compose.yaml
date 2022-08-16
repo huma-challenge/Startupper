@@ -8,14 +8,33 @@ services:
     environment:
     # network of account_manager service
       - account_manager=account_manager:50051
-    ports:
-      - "8080:8000"
+    volumes:
+      - statics:/src/statics:rw
     depends_on:
       - account_manager
     networks:
       - microservices
 
     entrypoint: ["sh", "./entrypoint.dev.sh"]
+
+    nginx:
+      build:
+        dockerfile: ./dockerfile.nginx
+        context: ./Gateway
+      depends_on:
+        - gateway
+      env_file:
+        - ./config/gunicorn.dev.env
+      environment:
+        # dns and port of gateway
+        - GATEWAY_PORT=8000
+        - GATEWAY_HOST=gateway
+      ports:
+        - 8000:80
+      volumes:
+        - statics:/statics:rw
+      restart: always
+
 
   
   account_manager:
