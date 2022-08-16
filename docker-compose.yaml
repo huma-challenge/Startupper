@@ -30,7 +30,7 @@ services:
         - GATEWAY_PORT=8000
         - GATEWAY_HOST=gateway
       ports:
-        - 8000:80
+        - 8080:80
       volumes:
         - statics:/statics:rw
       restart: always
