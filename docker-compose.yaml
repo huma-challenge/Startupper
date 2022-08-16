@@ -57,6 +57,8 @@ services:
       - ./Account-Manager/config/postgresql.dev.env
     networks:
       - db
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
  
 
 networks:
