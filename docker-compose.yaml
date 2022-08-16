@@ -1,0 +1,45 @@
+version: '3'
+services:
+  
+  gateway:
+    build:
+      dockerfile: dockerfile
+      context: ./Gateway
+    environment:
+    # network of account_manager service
+      - account_manager=account_manager:50051
+    ports:
+      - "8080:8000"
+    depends_on:
+      - account_manager
+    networks:
+      - microservices
+
+    entrypoint: ["sh", "./entrypoint.dev.sh"]
+
+  
+  account_manager:
+    build:
+      dockerfile: dockerfile
+      context: ./Account-Manager
+    environment:
+      - POSTGRES_HOST=account_manager_db
+    depends_on:
+      - account_manager_db
+    entrypoint: ["sh", "./entrypoint.dev.sh"]
+
+    networks:
+      - microservices
+      - db
+  
+  account_manager_db:
+    image: postgres:alpine
+    env_file:
+      - ./Account-Manager/config/postgresql.dev.env
+    networks:
+      - db
+ 
+
+networks:
+    microservices:
+    db:
