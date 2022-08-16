@@ -14,7 +14,7 @@ services:
       - account_manager
     networks:
       - microservices
-
+    restart: always
     entrypoint: ["sh", "./entrypoint.dev.sh"]
 
     nginx:
@@ -46,7 +46,7 @@ services:
     depends_on:
       - account_manager_db
     entrypoint: ["sh", "./entrypoint.dev.sh"]
-
+    restart: always
     networks:
       - microservices
       - db
@@ -59,6 +59,7 @@ services:
       - db
     volumes:
       - db-data:/var/lib/postgresql/data:rw
+    restart: always
  
 
 networks:
